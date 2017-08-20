@@ -5,24 +5,38 @@ let button = document.getElementById('button');
 let click = Observable.fromEvent(button, 'click');
 
 function loadMovies (url:string) {
-    let xhr = new XMLHttpRequest();
+    return Observable.create(observer => {
+        let xhr = new XMLHttpRequest();
 
-    xhr.addEventListener("load", () => {
-        let movies = JSON.parse(xhr.responseText);
-        movies.forEach(element => {
-            let div = document.createElement('div');
-            div.innerText = element.title;
-            output.appendChild(div);            
+        xhr.addEventListener("load", () => {
+            if(xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                observer.next(data);
+                observer.complete();
+            } else {
+                observer.error(xhr.statusText);
+            }
         });
-    });
 
-    xhr.open("GET", url);
-    xhr.send();
+        xhr.open("GET", url);
+        xhr.send();
+    });
 }
 
-click.subscribe(
-    e => loadMovies('movies.json'),
-    e => console.log(`'error: ${e}`),
-    () => console.log('complete')
-);
+click.flatMap(e => loadMovies('movies.json'))
+    .subscribe(o => console.log(o));
+
+// function renderMovies(movies) {
+//     movies.forEach(m => {
+//         let div = document.createElement("div");
+//         div.innerText = m.title;
+//         output.appendChild(div);
+//     });
+// }
+
+// click.subscribe(
+//     e => loadMovies('movies.json'),
+//     e => console.log(`'error: ${e}`),
+//     () => console.log('complete')
+// );
 
