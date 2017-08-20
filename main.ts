@@ -25,7 +25,11 @@ function loadMovies (url:string) {
 
 function retryStrategy() {
     return function(errors) {
-        return errors.delay(1000);
+        return errors.scan((acc, value) => {
+                        console.log(acc, value);
+                        return acc + 1;
+                    }, 10)
+                    .delay(1000);
     }
 }
 
