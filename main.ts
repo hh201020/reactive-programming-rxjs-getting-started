@@ -24,19 +24,16 @@ function loadMovies (url:string) {
 }
 
 click.flatMap(e => loadMovies('movies.json'))
-    .subscribe(o => console.log(o));
+    .subscribe(
+        renderMovies,
+        e => console.log(`'error: ${e}`),
+        () => console.log('complete')
+    );
 
-// function renderMovies(movies) {
-//     movies.forEach(m => {
-//         let div = document.createElement("div");
-//         div.innerText = m.title;
-//         output.appendChild(div);
-//     });
-// }
-
-// click.subscribe(
-//     e => loadMovies('movies.json'),
-//     e => console.log(`'error: ${e}`),
-//     () => console.log('complete')
-// );
-
+function renderMovies(movies) {
+    movies.forEach(m => {
+        let div = document.createElement("div");
+        div.innerText = m.title;
+        output.appendChild(div);
+    });
+}
