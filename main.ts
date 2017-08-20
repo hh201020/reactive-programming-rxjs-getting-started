@@ -3,13 +3,20 @@ import { Observable, Observer } from "rxjs";
 let numbers = [1, 5, 10];
 let source = Observable.create(observer => {
 
-    for(let n of numbers) {
-        if(n === 5) {
-            observer.error('Something went wrong!');
+    let index = 0;
+    let produceValue = () => {
+        observer.next(numbers[index++]);
+
+        if(index < numbers.length) {
+            setTimeout(produceValue, 2000);
         }
-        observer.next(n);
+        else {
+            observer.complete();
+        }
     }
-    observer.complete();
+
+    produceValue();
+
 });
 
 source.subscribe(
