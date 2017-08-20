@@ -26,7 +26,7 @@ let subscription =
               () => console.log("complete!"));
 
 console.log(subscription);
-//subscription.unsubscribe();
+subscription.unsubscribe();
 
 
 click.flatMap(e => loadWithFetch("movies.json"))
