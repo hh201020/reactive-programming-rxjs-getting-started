@@ -37,3 +37,5 @@ function renderMovies(movies) {
         output.appendChild(div);
     });
 }
+
+loadMovies("movies.json").subscribe(renderMovies);
