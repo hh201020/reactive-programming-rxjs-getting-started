@@ -20,10 +20,16 @@ function loadMovies (url:string) {
 
         xhr.open("GET", url);
         xhr.send();
-    });
+    }).retryWhen(retryStrategy());
 }
 
-click.flatMap(e => loadMovies('movies.json'))
+function retryStrategy() {
+    return function(errors) {
+        return errors;
+    }
+}
+
+click.flatMap(e => loadMovies('moviess.json'))
     .subscribe(
         renderMovies,
         e => console.log(`'error: ${e}`),
@@ -38,4 +44,4 @@ function renderMovies(movies) {
     });
 }
 
-loadMovies("movies.json").subscribe(renderMovies);
+//loadMovies("movies.json").subscribe(renderMovies);
