@@ -18,3 +18,20 @@ loadWithFetch("moviess.json")
     .subscribe( renderMovies,
                 e => console.log(`error: ${e}`),
                 () => console.log("complete!"));
+
+let subscription = 
+  load("moviess.json")
+    .subscribe(renderMovies, 
+              e => console.log(`error: ${e}`),
+              () => console.log("complete!"));
+
+console.log(subscription);
+//subscription.unsubscribe();
+
+
+click.flatMap(e => loadWithFetch("movies.json"))
+     .subscribe(
+        renderMovies,
+        e => console.log(`error: ${e}`),
+        () => console.log("complete")
+    );
