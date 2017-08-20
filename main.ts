@@ -25,7 +25,7 @@ function loadMovies (url:string) {
 
 function retryStrategy() {
     return function(errors) {
-        return errors;
+        return errors.delay(1000);
     }
 }
 
